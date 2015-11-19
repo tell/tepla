@@ -323,11 +323,22 @@ void bn254_fp_random(Element z)
 //-------------------------------------------
 void bn254_fp_to_oct(unsigned char *os, size_t *size, const Element x)
 {
-	mpz_export(os, size, -1, sizeof(*os), 0, 0, rep(x));
+	size_t stmp;
+	
+	unsigned char ostmp[32];
+	
+	mpz_export(ostmp, &stmp, 1, sizeof(*ostmp), 1, 0, rep(x));
+
+	memset(os, 0x00, 32);
+
+	memcpy(&(os[32-(int)stmp]), ostmp, stmp);
+
+	(*size) = 32;
 }
 
 void bn254_fp_from_oct(Element x, const unsigned char *os, const size_t size)
 {
-	mpz_import(rep(x), size, -1, sizeof(*os), 0, 0, os);
-}
+	if( size < 32 ){ fprintf(stderr, "error: please set up the enought buffer for element\n"); exit(300); }
 
+	mpz_import(rep(x), size, 1, sizeof(*os), 1, 0, os);
+}

@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.68])
-AC_INIT(tepla, 1.0, tepla-admin@cipher.risk.tsukuba.ac.jp)
+AC_INIT(tepla, 1.1, tepla-admin@cipher.risk.tsukuba.ac.jp)
 
 m4_include([m4/ax_check_openssl.m4])
 

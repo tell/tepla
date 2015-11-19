@@ -8,6 +8,7 @@
 
 #include "ec_bn254_lcl.h"
 
+#define rep(x) (*((mpz_t *)x->data))
 #define rep0(x) (((Element *)x->data)[0])
 #define rep1(x) (((Element *)x->data)[1])
 #define rep2(x) (((Element *)x->data)[2])
@@ -53,8 +54,12 @@ void bn254_fp12_set_fp6(Element z, const Element x, const Element y)
 
 void bn254_fp12_set_str(Element x, const char *s)
 {
-	int  i=0;
-	char msg[780], *p, *c[11];
+	int i=0;
+	int len = strlen(s);
+
+	char msg[790], *p, *c[11];
+
+	if( len > 790){ fprintf(stderr, "error: input string is too long, string must be smaller than 780\n"); exit(200); }
 
 	strcpy(msg, s);
 
@@ -68,20 +73,50 @@ void bn254_fp12_set_str(Element x, const char *s)
 
 	if( i != 11 ){ fprintf(stderr,"error: input string is not correct %d\n", i); exit(200); }
 
-	(*c[5]) = '\0';
+	(*c[0]) = '\0';
+	(*c[1]) = '\0';
+	(*c[2]) = '\0';
+	(*c[3]) = '\0';
+	(*c[4]) = '\0';
+	(*c[5]) = '\0'; 
+	(*c[6]) = '\0';
+	(*c[7]) = '\0';
+	(*c[8]) = '\0';
+	(*c[9]) = '\0';
+	(*c[10]) = '\0'; 
 
-	bn254_fp6_set_str(rep0(x), msg);
-	bn254_fp6_set_str(rep1(x), ++c[5]);
+	bn254_fp_set_str(rep0(rep0(rep0(x))), msg);
+	bn254_fp_set_str(rep0(rep1(rep0(x))), ++c[0]);
+	bn254_fp_set_str(rep0(rep2(rep0(x))), ++c[1]);
+	bn254_fp_set_str(rep0(rep0(rep1(x))), ++c[2]);
+	bn254_fp_set_str(rep0(rep1(rep1(x))), ++c[3]);
+	bn254_fp_set_str(rep0(rep2(rep1(x))), ++c[4]);
+	bn254_fp_set_str(rep1(rep0(rep0(x))), ++c[5]);
+	bn254_fp_set_str(rep1(rep1(rep0(x))), ++c[6]);
+	bn254_fp_set_str(rep1(rep2(rep0(x))), ++c[7]);
+	bn254_fp_set_str(rep1(rep0(rep1(x))), ++c[8]);
+	bn254_fp_set_str(rep1(rep1(rep1(x))), ++c[9]);
+	bn254_fp_set_str(rep1(rep2(rep1(x))), ++c[10]);
 }
 
 void bn254_fp12_get_str(char *s, const Element x)
 {
-	char s1[390], s2[390];
+	char s0[65], s1[65], s2[65], s3[65], s4[65], s5[65], s6[65], s7[65], s8[65], s9[65], s10[65], s11[65];
 
-	bn254_fp6_get_str(s1, rep0(x));
-	bn254_fp6_get_str(s2, rep1(x));
+	bn254_fp_get_str(s0, rep0(rep0(rep0(x))));
+	bn254_fp_get_str(s1, rep0(rep1(rep0(x))));
+	bn254_fp_get_str(s2, rep0(rep2(rep0(x))));
+	bn254_fp_get_str(s3, rep0(rep0(rep1(x))));
+	bn254_fp_get_str(s4, rep0(rep1(rep1(x))));
+	bn254_fp_get_str(s5, rep0(rep2(rep1(x))));
+	bn254_fp_get_str(s6, rep1(rep0(rep0(x))));
+	bn254_fp_get_str(s7, rep1(rep1(rep0(x))));
+	bn254_fp_get_str(s8, rep1(rep2(rep0(x))));
+	bn254_fp_get_str(s9, rep1(rep0(rep1(x))));
+	bn254_fp_get_str(s10, rep1(rep1(rep1(x))));
+	bn254_fp_get_str(s11, rep1(rep2(rep1(x))));
 
-	sprintf(s, "%s %s", s1, s2);
+	sprintf(s, "%s %s %s %s %s %s %s %s %s %s %s %s", s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11);
 }
 
 void bn254_fp12_set_zero(Element x)
@@ -559,28 +594,89 @@ void bn254_fp12_random(Element z)
 //-------------------------------------------
 //  i/o operation (octet string)
 //-------------------------------------------
+void bn254_fp12_to_mpz(mpz_t a, const Element x)
+{
+	mpz_mul(a, rep(rep1(rep2(rep1(x)))), field(x)->base->base->base->order);   // a = rep121*p
+	mpz_add(a, a, rep(rep1(rep1(rep1(x)))));   // a = a + rep111
+	mpz_mul(a, a, field(x)->base->base->base->order);   //a = a*p
+	mpz_add(a, a, rep(rep1(rep0(rep1(x)))));
+	mpz_mul(a, a, field(x)->base->base->base->order);
+	mpz_add(a, a, rep(rep1(rep2(rep0(x)))));
+	mpz_mul(a, a, field(x)->base->base->base->order);
+	mpz_add(a, a, rep(rep1(rep1(rep0(x)))));
+	mpz_mul(a, a, field(x)->base->base->base->order);
+	mpz_add(a, a, rep(rep1(rep0(rep0(x)))));
+	mpz_mul(a, a, field(x)->base->base->base->order);
+	mpz_add(a, a, rep(rep0(rep2(rep1(x)))));
+	mpz_mul(a, a, field(x)->base->base->base->order);
+	mpz_add(a, a, rep(rep0(rep1(rep1(x)))));
+	mpz_mul(a, a, field(x)->base->base->base->order);
+	mpz_add(a, a, rep(rep0(rep0(rep1(x)))));
+	mpz_mul(a, a, field(x)->base->base->base->order);
+	mpz_add(a, a, rep(rep0(rep2(rep0(x)))));
+	mpz_mul(a, a, field(x)->base->base->base->order);
+	mpz_add(a, a, rep(rep0(rep1(rep0(x)))));
+	mpz_mul(a, a, field(x)->base->base->base->order);
+	mpz_add(a, a, rep(rep0(rep0(rep0(x)))));
+}
+
 void bn254_fp12_to_oct(unsigned char *os, size_t *size, const Element x)
 {
-	size_t s0, s1;
+	size_t s0;
 
-	unsigned char b0[192];
-	unsigned char b1[192];
+	unsigned char b0[380];
+	mpz_t z;
 
-	bn254_fp6_to_oct(b0, &s0, rep0(x));
-	bn254_fp6_to_oct(b1, &s1, rep1(x));
+	mpz_init(z);
 
-	memset(os, 0x00, 384);
+	bn254_fp12_to_mpz(z,x);
+	mpz_export(b0, &s0, 1, sizeof(*b0), 1, 0, z);
 
-	memcpy(&(os[0]),   b0, s0);
-	memcpy(&(os[192]), b1, s1);
+	memset(os, 0x00, 380);
 
-	(*size) = 384;
+	memcpy(&os[380-(int)s0], b0, s0);
+
+	(*size) = 380;
+
+	mpz_clear(z);
 }
 
 void bn254_fp12_from_oct(Element x, const unsigned char *os, const size_t size)
 {
-	if( size < 384 ){ fprintf(stderr, "error: please set up the enough buffer for element\n"); exit(300); }
+	mpz_t quo, rem;
 
-	bn254_fp6_from_oct(rep0(x), &(os[0]),   192);
-	bn254_fp6_from_oct(rep1(x), &(os[192]), 192);
+        if( size < 380 ){ fprintf(stderr, "error: please set up the enought buffer for element\n"); exit(300); }
+
+	mpz_init(quo);
+	mpz_init(rem);
+
+	mpz_import(quo, size, 1, sizeof(*os), 1, 0, os);
+
+	mpz_tdiv_qr(quo, rem, quo, field(x)->base->base->base->order);
+	mpz_set(rep(rep0(rep0(rep0(x)))), rem);
+	mpz_tdiv_qr(quo, rem, quo, field(x)->base->base->base->order);
+	mpz_set(rep(rep0(rep1(rep0(x)))), rem);
+	mpz_tdiv_qr(quo, rem, quo, field(x)->base->base->base->order);
+	mpz_set(rep(rep0(rep2(rep0(x)))), rem);
+	mpz_tdiv_qr(quo, rem, quo, field(x)->base->base->base->order);
+	mpz_set(rep(rep0(rep0(rep1(x)))), rem);
+	mpz_tdiv_qr(quo, rem, quo, field(x)->base->base->base->order);
+	mpz_set(rep(rep0(rep1(rep1(x)))), rem);
+	mpz_tdiv_qr(quo, rem, quo, field(x)->base->base->base->order);
+	mpz_set(rep(rep0(rep2(rep1(x)))), rem);
+	mpz_tdiv_qr(quo, rem, quo, field(x)->base->base->base->order);
+	mpz_set(rep(rep1(rep0(rep0(x)))), rem);
+	mpz_tdiv_qr(quo, rem, quo, field(x)->base->base->base->order);
+	mpz_set(rep(rep1(rep1(rep0(x)))), rem);
+	mpz_tdiv_qr(quo, rem, quo, field(x)->base->base->base->order);
+	mpz_set(rep(rep1(rep2(rep0(x)))), rem);
+	mpz_tdiv_qr(quo, rem, quo, field(x)->base->base->base->order);
+	mpz_set(rep(rep1(rep0(rep1(x)))), rem);
+	mpz_tdiv_qr(quo, rem, quo, field(x)->base->base->base->order);
+	mpz_set(rep(rep1(rep1(rep1(x)))), rem);
+	mpz_tdiv_qr(quo, rem, quo, field(x)->base->base->base->order);
+	mpz_set(rep(rep1(rep2(rep1(x)))), rem);
+
+	mpz_clear(quo);
+	mpz_clear(rem);
 }

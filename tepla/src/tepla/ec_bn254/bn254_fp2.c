@@ -8,6 +8,7 @@
 
 #include "ec_bn254_lcl.h"
 
+#define rep(x) (*((mpz_t *)x->data))
 #define rep0(x) (((Element *)x->data)[0])
 #define rep1(x) (((Element *)x->data)[1])
 
@@ -56,15 +57,18 @@ void bn254_fp2_set_fp(Element z, const Element x, const Element y)
 void bn254_fp2_set_str(Element x, const char *s)
 {
 	int i=0;
+	int len = strlen(s);
 
 	char msg[140], *p, *c=NULL;
+
+	if( len > 140 ){ fprintf(stderr, "error: input string is too long, string must be smaller than 140\n"); exit(200); }
 
 	strcpy(msg, s);
 
 	p = msg;
 
 	while( (*p) != '\0' ){ if((*p)==' '){ if(i==0){ c=p; } i++; } p++; }
-
+	
 	if( i != 1 ){ fprintf(stderr,"error: input string is not correct\n"); exit(200); }
 
 	(*c) = '\0';
@@ -400,28 +404,48 @@ void bn254_fp2_random(Element z)
 //-------------------------------------------
 //  i/o operation (octet string)
 //-------------------------------------------
+void bn254_fp2_to_mpz(mpz_t a, const Element x)
+{
+	mpz_set(a, rep(rep0(x)));   // a = rep0
+	mpz_addmul(a, rep(rep1(x)), field(x)->base->order);   //a = a + rep1*p
+}
+	
 void bn254_fp2_to_oct(unsigned char *os, size_t *size, const Element x)
 {
-	size_t s0, s1;
+	size_t s0;
 
-	unsigned char os0[32];
-	unsigned char os1[32];
+	unsigned char b0[64];
+	mpz_t z;
 
-	bn254_fp_to_oct(os0, &s0, rep0(x));
-	bn254_fp_to_oct(os1, &s1, rep1(x));
+	mpz_init(z);
+
+	bn254_fp2_to_mpz(z, x);
+	mpz_export(b0, &s0, 1, sizeof(*b0), 1, 0, z);
 
 	memset(os, 0x00, 64);
 
-	memcpy(&(os[0]), os0, s0);
-	memcpy(&(os[32]), os1, s1);
+	memcpy(&os[64-(int)s0], b0, s0);
 
 	(*size) = 64;
+
+	mpz_clear(z);
 }
 
 void bn254_fp2_from_oct(Element x, const unsigned char *os, const size_t size)
 {
-	if( size < 64 ){ fprintf(stderr, "error: please set up the enought buffer for element\n"); exit(300); }
+	mpz_t quo, rem;
 
-	bn254_fp_from_oct(rep0(x), &(os[0]), 32);
-	bn254_fp_from_oct(rep1(x), &(os[32]), 32);
+        if( size < 64 ){ fprintf(stderr, "error: please set up the enought buffer for element\n"); exit(300); }
+
+	mpz_init(quo);
+	mpz_init(rem);
+
+	mpz_import(quo, size, 1, sizeof(*os), 1, 0, os);
+
+	mpz_tdiv_qr(quo, rem, quo, field(x)->base->order);
+	mpz_set(rep(rep0(x)), rem);
+	mpz_set(rep(rep1(x)), quo);
+
+	mpz_clear(quo);
+	mpz_clear(rem);
 }

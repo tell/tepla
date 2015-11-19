@@ -208,7 +208,7 @@ void ec_bn254_fp6_new(Field f)
 	f->ID = bn254_fp6;
 
 	f->str_len = 390;
-	f->oct_len = 192;
+	f->oct_len = 190;
 
 	//------------------------------
 	//  set pointer of function
@@ -297,7 +297,7 @@ void ec_bn254_fp12_new(Field f)
 	f->ID = bn254_fp12;
 
 	f->str_len = 780;
-	f->oct_len = 384;
+	f->oct_len = 380;
 
 	//------------------------------
 	//  set pointer of function
@@ -354,7 +354,7 @@ void ec_bn254_fp12_new(Field f)
 	f->irre_poly = (Element *)malloc(sizeof(Element));
 
 	element_init(f->irre_poly[0], f->base);
-	element_set_str(f->irre_poly[0], "0 0 -1 0 0 0");
+	element_set_str(f->irre_poly[0], "0 -1 0 0 0 0");
 
 	//-----------------------------------------
 	//  pre-computation for square root
