@@ -1,0 +1,10 @@
+*.o
+*.a
+
+tepla/Makefile
+tepla/config.h
+tepla/config.log
+tepla/config.status
+tepla/src/tepla/Makefile
+tepla/src/tepla/ec_bn254/Makefile
+tepla/src/tepla/ec_bn254/test/Makefile
