@@ -369,7 +369,7 @@ int bn254_fp2_cmp(const Element x, const Element y)
 {
 	if ( bn254_fp_cmp(rep1(x), rep1(y)) == 0 )
 	{
-		if( bn254_fp_cmp(rep1(x), rep1(y)) == 0 ){ return 0; }
+		if( bn254_fp_cmp(rep0(x), rep0(y)) == 0 ){ return 0; }
 	}
 	return 1;
 }
