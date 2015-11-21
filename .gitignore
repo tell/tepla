@@ -1,5 +1,6 @@
 *.o
 *.a
+*.exe
 
 tepla/Makefile
 tepla/config.h
