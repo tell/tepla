@@ -7,6 +7,10 @@
 
 #include <tepla/ec/field.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 //---------------------------------------------------
 // Elliptic Curve Type
 //---------------------------------------------------
@@ -170,3 +174,7 @@ void pairing_clear(EC_PAIRING p);
 void pairing_map(Element g, const EC_POINT P, const EC_POINT Q, const EC_PAIRING p);
 
 const mpz_t* pairing_get_order(const EC_PAIRING p);
+
+#ifdef __cplusplus
+}
+#endif

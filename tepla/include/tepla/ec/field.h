@@ -7,6 +7,10 @@
 
 #include <gmp.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 //---------------------------------------------------
 // Field type
 //---------------------------------------------------
@@ -127,3 +131,7 @@ void element_from_oct(Element z, const unsigned char *os, size_t size);
 
 int  element_get_str_length(const Element x);
 int  element_get_oct_length(const Element x);
+
+#ifdef __cplusplus
+}
+#endif
