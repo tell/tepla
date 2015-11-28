@@ -521,6 +521,8 @@ void ec_bn254_fp_group_new(EC_GROUP ec)
 	mpz_init_set_str(ec->trace, "5F408FD0060000000000000000000001", 16);
 	mpz_init_set_str(ec->cofactor, "1", 16);
 
+	point_set_str(ec->generator, "[1, d45589b158faaf6ab0e4ad38d998e9982e7ff63964ee1460342a592677cccb0]");
+
 	ec_bn254_fp_init_ec_data(ec);
 }
 
