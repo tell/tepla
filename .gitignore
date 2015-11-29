@@ -2,6 +2,10 @@
 *.a
 *.exe
 
+tepla/GPATH
+tepla/GRTAGS
+tepla/GTAGS
+tepla/cscope.out
 tepla/Makefile
 tepla/config.h
 tepla/config.log
