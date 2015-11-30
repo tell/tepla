@@ -728,6 +728,30 @@ int bn254_fp2_compare(const Element x, const Element y)
 	return 0;
 }
 
+int ec_bn254_fp2_is_on_curve(const EC_POINT P)
+{
+	int hr = FALSE;
+	Element x, y;
+	EC_POINT R;
+
+	if( point_is_infinity(P) ) return TRUE;
+
+	element_init(x, field(P));
+	element_init(y, field(P));
+	point_init(R, curve(P));
+
+	element_sqr(x, xcoord(P));
+	element_mul(x, x, xcoord(P));
+	element_add(x, x, curve(P)->b);
+	element_sqr(y, ycoord(P));
+	ec_bn254_fp2_mul_naf(R, curve(P)->order, P);
+
+	hr = ( element_cmp(x, y) == 0 && point_is_infinity(R));
+	element_clear(x);
+	element_clear(y); point_clear(R);
+	return hr;
+}
+
 void ec_bn254_fp2_map_to_point(EC_POINT z, const char *s, size_t slen, int t)
 {
 	mpz_t i;

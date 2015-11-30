@@ -550,7 +550,7 @@ void ec_bn254_tw_method_new(EC_METHOD method)
 #endif
 
 	method->is_infinity = ec_bn254_fp_is_infinity;
-	method->is_on_curve = ec_bn254_fp_is_on_curve;
+	method->is_on_curve = ec_bn254_fp2_is_on_curve;
 	method->cmp = ec_bn254_fp_cmp;
 
 	method->make_affine = ec_bn254_fp2_make_affine;
