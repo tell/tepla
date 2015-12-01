@@ -1,0 +1,6 @@
+mode=c
+indent=spaces=4
+pad-header
+add-one-line-brackets
+-U
+pad-oper
