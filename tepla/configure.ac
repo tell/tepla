@@ -10,7 +10,7 @@ AC_CONFIG_SRCDIR([src/tepla/hash.c])
 AC_CONFIG_HEADERS([config.h])
 
 if test "" = "$CFLAGS"; then
-   CFLAGS="-Wall -Wextra -pedantic -g -O4 -std=c99"
+   CFLAGS="-Wall -Wextra -pedantic -g -O4 -std=c11"
 fi
 
 if test "" = "x$LDFLAGS"; then
