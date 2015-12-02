@@ -4,6 +4,7 @@ This is a mirror of [TEPLA](http://www.cipher.risk.tsukuba.ac.jp/tepla/) and sev
 
 # Note
 
+- [IMPORTANT] [Version 1.1](https://github.com/tell/tepla/releases/tag/v1.1) and versions 1.1.x provide bug fixes only, no new feature.
 - [IMPORTANT] Currently, thread-safety is NOT verified.
 
 # History
