@@ -1,0 +1,5 @@
+language: c
+before_script:
+    - cd tepla && ./configure
+    - make -C tepla
+script: make -C tepla check
