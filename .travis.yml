@@ -6,12 +6,12 @@ addons:
     # - deadsnakes
     - ubuntu-toolchain-r-test
     packages:
+    - build-essencial
     - gcc-4.8
     - libgmp-dev
 compiler:
     - gcc-4.8
 before_script:
-    - export CC=gcc-4.8
     - cd tepla
     - ./configure || { cat config.log && false; }
     - make
