@@ -1,5 +1,5 @@
 language: c
 before_script:
-    - cd tepla && ./configure
+    - cd tepla && ./configure || cat config.log
     - make -C tepla
 script: make -C tepla check
