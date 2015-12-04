@@ -1,6 +1,12 @@
 language: c
 compiler:
     - gcc
+sudo: false
+addons:
+  apt:
+    packages:
+    - gcc-4.8
+    - libgmp-dev
 before_install:
     - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
     - sudo apt-get update -qq
