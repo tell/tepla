@@ -10,4 +10,4 @@ before_script:
     - cd tepla
     - ./configure || { cat config.log && false; }
     - make
-script: make -C tepla check
+script: make check
