@@ -1,5 +1,6 @@
 language: c
 before_script:
-    - cd tepla && ./configure || cat config.log
-    - make -C tepla
+    - cd tepla
+    - ./configure || { cat config.log && false; }
+    - make
 script: make -C tepla check
