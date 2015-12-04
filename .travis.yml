@@ -6,8 +6,7 @@ addons:
     # - deadsnakes
     - ubuntu-toolchain-r-test
     packages:
-    - build-essential
-      # - gcc-4.8
+    - gcc-4.8
     - libgmp-dev
 compiler:
     - gcc-4.8
