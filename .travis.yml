@@ -18,5 +18,5 @@ before_script:
     - make -j 4
 script: make -j 4 check
 after_failure:
-    - pwd
+    - "pwd"
     - "cat config.log"
