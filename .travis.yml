@@ -14,8 +14,9 @@ compiler:
     - gcc-4.8
 before_script:
     - cd tepla
-    - ./configure || { echo "ERROR"; cat config.log && false; }
+    - ./configure || { echo "!!!! ERROR !!!!"; cat config.log && false; }
     - make -j 4
 script: make -j 4 check
 after_failure:
+    - pwd
     - "cat config.log"
