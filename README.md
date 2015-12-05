@@ -15,3 +15,9 @@ This is a mirror of [TEPLA](http://www.cipher.risk.tsukuba.ac.jp/tepla/) and sev
 
 - We follow [Semantic Versioning](http://semver.org/) to make version numbers as much as possible.
 - We use [Artistic Style](http://astyle.sourceforge.net/) to indent C source codes.
+
+# CI
+
+- Travis CI
+    - master: [![Build Status](https://travis-ci.org/tell/tepla.svg?branch=master)](https://travis-ci.org/tell/tepla)
+    - develop: [![Build Status](https://travis-ci.org/tell/tepla.svg?branch=develop)](https://travis-ci.org/tell/tepla)
