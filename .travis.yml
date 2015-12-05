@@ -17,6 +17,6 @@ before_script:
     - ./configure || { echo "!!!! ERROR !!!!"; cat config.log && false; }
     - make -j 4
 script: make -j 4 check
-after_failure:
-    - "pwd"
-    - "cat config.log"
+# after_failure:
+#     - "pwd"
+#     - "cat config.log"
