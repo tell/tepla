@@ -8,13 +8,13 @@ addons:
     # - deadsnakes
     - ubuntu-toolchain-r-test
     packages:
-    # - gcc-4.8
+    - gcc-4.8
     - libgmp-dev
 compiler:
     - gcc-4.8
 before_script:
     - cd tepla
-    - ./configure
+    - ./configure || { echo "ERROR"; cat config.log && false; }
     - make -j 4
 script: make -j 4 check
 after_failure:
