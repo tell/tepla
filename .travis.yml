@@ -18,4 +18,4 @@ before_script:
     - make -j 4
 script: make -j 4 check
 after_failure:
-    - "cd tepla && [ -f config.log ] && cat config.log"
+    - "cat config.log"
