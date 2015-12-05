@@ -1,5 +1,7 @@
 language: c
 sudo: false
+cache:
+    apt: true
 addons:
   apt:
     sources:
@@ -13,5 +15,5 @@ compiler:
 before_script:
     - cd tepla
     - ./configure || { cat config.log && false; }
-    - make
-script: make check
+    - make -j 4
+script: make -j 4 check
