@@ -6,6 +6,7 @@ This is a mirror of [TEPLA](http://www.cipher.risk.tsukuba.ac.jp/tepla/) and sev
 
 - [IMPORTANT] [Version 1.1](https://github.com/tell/tepla/releases/tag/v1.1) and versions 1.1.x provide bug fixes only, no new feature.
 - [IMPORTANT] Currently, thread-safety is NOT verified.
+- I'm not committer of this project. This repository is just a mirror with my notes and memo.
 
 # History
 
