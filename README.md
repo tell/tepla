@@ -21,4 +21,3 @@ This is a mirror of [TEPLA](http://www.cipher.risk.tsukuba.ac.jp/tepla/) and sev
 
 - Travis CI
     - master: [![Build Status](https://travis-ci.org/tell/tepla.svg?branch=master)](https://travis-ci.org/tell/tepla)
-    - develop: [![Build Status](https://travis-ci.org/tell/tepla.svg?branch=develop)](https://travis-ci.org/tell/tepla)
