@@ -1,6 +1,7 @@
 # IMPORTANT
 
 This repository is not official and not maintained.
+Please contact to [the official TEPLA development team](http://www.cipher.risk.tsukuba.ac.jp/tepla/) if you have questions.
 
 # TEPLA: University of Tsukuba Elliptic Curve and Pairing Library
 
